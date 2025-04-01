@@ -3,6 +3,7 @@ version: "3.8"
 services:
   backend:
     build: ./backend
+    image: backend:latest  # Add the image tag
     ports:
       - "5000:5000"
     environment:
@@ -15,6 +16,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: frontend:latest  # Add the image tag
     ports:
       - "4000:4000"
     depends_on:
