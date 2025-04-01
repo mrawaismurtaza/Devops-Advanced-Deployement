@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      
+
       - name: Build Docker Containers with Docker Compose
         run: |
           docker-compose -f docker-compose.yml build
@@ -92,10 +92,10 @@ jobs:
 
       - name: Tag and Push Frontend Image
         run: |
-          docker tag frontend:latest mydockerhubusername/my-frontend:latest
-          docker push mydockerhubusername/my-frontend:latest
+          docker tag frontend:latest mydockerhubusername/frontend:latest
+          docker push mydockerhubusername/frontend:latest
 
       - name: Tag and Push Backend Image
         run: |
-          docker tag backend:latest mydockerhubusername/my-backend:latest
-          docker push mydockerhubusername/my-backend:latest
+          docker tag backend:latest mydockerhubusername/backend:latest
+          docker push mydockerhubusername/backend:latest
