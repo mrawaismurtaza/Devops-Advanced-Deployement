@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  # Build Containers using Docker Compose
-  build-containers:
+  # Build and Push Containers in a Single Job
+  build-and-push-containers:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,9 +22,11 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
+      # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      # Cache Docker layers
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -33,15 +35,37 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      # Build Docker Containers with Docker Compose
       - name: Build Docker Containers with Docker Compose
         run: |
           docker-compose -f docker-compose.yml build
           docker images  # Log all Docker images after the build
 
+      # Log in to DockerHub
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Tag and Push Frontend Image
+      - name: Tag and Push Frontend Image
+        run: |
+          docker tag frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          docker images  # Log images after tagging
+          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+
+      # Tag and Push Backend Image
+      - name: Tag and Push Backend Image
+        run: |
+          docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker images  # Log images after tagging
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
+
   # Run Unit Tests (Frontend and Backend)
   run-tests:
     runs-on: ubuntu-latest
-    needs: [build-containers]
+    needs: [build-and-push-containers]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Node.js
@@ -79,29 +103,3 @@ jobs:
           cd backend
           npm install
           npm run lint
-
-  # Push Docker Containers to DockerHub
-  push-to-dockerhub:
-    runs-on: ubuntu-latest
-    needs: [build-containers]
-    steps:
-      - name: List Docker images before pushing
-        run: docker images  # Log Docker images before pushing
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Tag and Push Frontend Image
-        run: |
-          docker tag frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend:latest
-          docker images  # Log images after tagging
-          docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
-
-      - name: Tag and Push Backend Image
-        run: |
-          docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:latest
-          docker images  # Log images after tagging
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
