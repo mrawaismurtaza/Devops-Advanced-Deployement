@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backend:
     build: ./backend
-    image: frontend:latest  # Ensure this image name matches what you want to tag
+    image: backend:latest  # This is fine for the backend
     ports:
       - "5000:5000"
     environment:
@@ -16,7 +16,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: backend:latest  # Ensure this image name matches what you want to tag
+    image: frontend:latest  # Corrected image name
     ports:
       - "4000:4000"
     depends_on:
