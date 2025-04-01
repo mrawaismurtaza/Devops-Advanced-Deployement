@@ -92,11 +92,10 @@ jobs:
   
       - name: Tag and Push Frontend Image
         run: |
-          docker tag devopsass_frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          docker tag frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
   
       - name: Tag and Push Backend Image
         run: |
-          docker tag devopsass_backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
-  
