@@ -51,7 +51,7 @@ jobs:
       # Tag and Push Frontend Image
       - name: Tag and Push Frontend Image
         run: |
-          ocker tag devopsass_frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend
+          docker tag devopsass_frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend
           docker images  # Log images after tagging
           docker push ${{ secrets.DOCKER_USERNAME }}/frontend
 
