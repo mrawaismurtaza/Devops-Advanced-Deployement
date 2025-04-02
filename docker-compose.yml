@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backend:
     build: ./backend
-    image: backend:latest  # This is fine for the backend
+    image: backend  # This is fine for the backend
     ports:
       - "5000:5000"
     environment:
@@ -16,7 +16,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: frontend:latest  # Corrected image name
+    image: frontend # Corrected image name
     ports:
       - "4000:4000"
     depends_on:
