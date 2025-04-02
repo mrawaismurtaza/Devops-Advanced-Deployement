@@ -51,14 +51,14 @@ jobs:
       # Tag and Push Frontend Image
       - name: Tag and Push Frontend Image
         run: |
-          docker tag frontend ${{ secrets.DOCKER_USERNAME }}/frontend
+          docker tag frontend frontend
           docker images  # Log images after tagging
           docker push ${{ secrets.DOCKER_USERNAME }}/frontend
 
       # Tag and Push Backend Image
       - name: Tag and Push Backend Image
         run: |
-          docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend
+          docker tag backend backend
           docker images  # Log images after tagging
           docker push ${{ secrets.DOCKER_USERNAME }}/backend
 
