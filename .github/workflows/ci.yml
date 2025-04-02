@@ -51,16 +51,16 @@ jobs:
       # Tag and Push Frontend Image
       - name: Tag and Push Frontend Image
         run: |
-          docker tag frontend frontend
+          docker tag frontend:latest awaisf219474/frontend:latest
           docker images  # Log images after tagging
-          docker push ${{ secrets.DOCKER_USERNAME }}/frontend
+          docker push awaisf219474/frontend
 
       # Tag and Push Backend Image
       - name: Tag and Push Backend Image
         run: |
-          docker tag backend backend
+          docker tag backend:latest awaisf219474/backend:latest
           docker images  # Log images after tagging
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend
+          docker push awaisf219474/backend
 
   # Run Unit Tests (Frontend and Backend)
   run-tests:
