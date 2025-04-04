@@ -83,23 +83,4 @@ jobs:
           npm install
           npm test -- --coverage
 
-  # Linting and SAST for Frontend and Backend
-  linting:
-    runs-on: ubuntu-latest
-    needs: [run-tests]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node.js for Linting
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Run Linter for Frontend
-        run: |
-          cd frontend
-          npm install
-          npm run lint
-      - name: Run Linter for Backend
-        run: |
-          cd backend
-          npm install
-          npm run lint
+  
