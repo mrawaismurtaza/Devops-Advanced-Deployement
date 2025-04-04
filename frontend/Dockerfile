@@ -1,18 +1,23 @@
-# Use Node.js image to build the React app
-FROM node:18-alpine AS builder
+# Build Stage: creates optimized React build
+FROM node:18-alpine as build
 
-# Set working directory
 WORKDIR /app
-
-# Copy package.json and install dependencies
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-
-# Copy frontend code
 COPY . .
+RUN npm run build
 
-# Set environment to development for hot reloading
-ENV WDS_SOCKET_PORT=0
+# Production Stage: uses Nginx to serve the build
+FROM nginx:alpine
 
-# Start frontend with development server
-CMD ["npm", "start"]
+# Remove default nginx content
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy React build files
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
