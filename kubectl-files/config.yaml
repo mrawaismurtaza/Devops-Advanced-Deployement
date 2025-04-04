@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  BACKEND_URL: "http://backend-service:5000"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  MONGO_URI: "bW9uZ29kYitzcnY6Ly9tcmF3YWlzOmF3YWlzMTQwNUBjbHVzdGVyMC5xaTlhZ3N3Lm1vbmdvZGIubmV0L215ZGF0YWJhc2U="  
+  # Base64 encoded: mongodb+srv://mrawais:awais1405@cluster0.qi9agsw.mongodb.net/mydatabase
