@@ -1,0 +1,11 @@
+namespace: dev
+
+backend:
+  image: awaisf219474/backend:latest
+  port: 5000
+
+frontend:
+  image: awaisf219474/frontend:latest
+  port: 80
+
+mongoUri: mongodb+srv://mrawais:awais1405@cluster0.qi9agsw.mongodb.net/mydatabase

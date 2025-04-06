@@ -1,0 +1,12 @@
+namespace: prod
+
+backend:
+  image: awaisf219474/backend:latest
+  port: 5000
+
+frontend:
+  image: awaisf219474/frontend:latest
+  port: 80
+
+mongoUri: mongodb+srv://produser:prodpass@prod-cluster.mongodb.net/mydatabase
+
