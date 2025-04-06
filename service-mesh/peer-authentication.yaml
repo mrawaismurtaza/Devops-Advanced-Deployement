@@ -1,0 +1,8 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: dev # Can be changed to prod or left blank for cluster-wide
+spec:
+  mtls:
+    mode: STRICT # Enforce mTLS for all service communication

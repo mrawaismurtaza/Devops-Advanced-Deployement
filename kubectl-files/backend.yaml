@@ -2,15 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
+  namespace: dev # Ensuring namespace consistency
+  labels:
+    app: backend
+    version: v1 # Added version label for service mesh
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: backend
+      version: v1 # Updated selector to include version
   template:
     metadata:
       labels:
         app: backend
+        version: v1 # Added version label for pod template
     spec:
       containers:
         - name: backend
@@ -40,7 +46,7 @@ metadata:
   name: backend-service
 spec:
   selector:
-    app: backend
+    app: backend # Service selects all pods with app=backend regardless of version
   ports:
     - protocol: TCP
       port: 5000
