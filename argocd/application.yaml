@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-advanced-deployment
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mrawaismurtaza/Devops-Advanced-Deployement.git  # Updated with actual GitHub repo URL
+    targetRevision: HEAD
+    path: kubectl-files  # Path to Kubernetes manifests within your repo
+    # Alternatively, you can use Helm charts:
+    # path: devops-app
+    # helm:
+    #   valueFiles:
+    #   - values-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod  # Target namespace for deployment
+  syncPolicy:
+    automated:
+      prune: true  # Automatically delete resources that are no longer defined in Git
+      selfHeal: true  # Automatically sync when drift is detected
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m 
